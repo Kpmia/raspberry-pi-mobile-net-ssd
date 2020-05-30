@@ -37,4 +37,5 @@ def getPredictions(frame):
             
             print(box)
             
-    return box
+            return box
+            
