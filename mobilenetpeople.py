@@ -1,6 +1,8 @@
 
 import cv2
 import numpy as np
+import urllib
+
 
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 	"bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
@@ -12,9 +14,13 @@ net = cv2.dnn.readNetFromCaffe("MobileNetSSD_deploy.prototxt", "MobileNetSSD_dep
 
 def getPredictions(frame):
     
-    (H, W) = frame.shape[:2]
+    nparr = np.fromstring(frame.data, np.uint8)
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
-    blob = cv2.dnn.blobFromImage(frame, 0.007843, (W, H), 127.5)
+    
+    (H, W) = image.shape[:2]
+    
+    blob = cv2.dnn.blobFromImage(image, 0.007843, (W, H), 127.5)
     net.setInput(blob)
     detections = net.forward()
 
